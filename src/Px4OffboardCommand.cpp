@@ -9,20 +9,20 @@
 #include "Px4OffboardCommand.h"
 
 Px4OffboardCommand::Px4OffboardCommand():
-  rc_channel_throttle_(rc_channels::RC_CHANNEL_THROTTLE),
-  rc_channel_roll_(rc_channels::RC_CHANNEL_ROLL),
-  rc_channel_pitch_(rc_channels::RC_CHANNEL_PITCH),
-  rc_channel_yaw_(rc_channels::RC_CHANNEL_YAW),
-  rc_channel_rc_on_(rc_channels::RC_CHANNEL_RC_ON),
-  rc_channel_mode_(rc_channels::RC_CHANNEL_MODE),
-  joy_axis_throttle_(joy_axes::JOY_AXIS_THROTTLE),
-  joy_axis_roll_(joy_axes::JOY_AXIS_ROLL),
-  joy_axis_pitch_(joy_axes::JOY_AXIS_PITCH),
-  joy_axis_yaw_(joy_axes::JOY_AXIS_YAW),
-  joy_axis_mode_(joy_axes::JOY_AXIS_MODE),
-  joy_button_rc_on_(joy_buttons::JOY_BUTTON_RC_ON),
-  px4_offboard_state_(offboard_state::OFFBOARD_STATE_OFF),
-  px4_mc_yaw_p_(2.8)
+	  rc_channel_throttle_(rc_channels::RC_CHANNEL_THROTTLE),
+	  rc_channel_roll_(rc_channels::RC_CHANNEL_ROLL),
+	  rc_channel_pitch_(rc_channels::RC_CHANNEL_PITCH),
+	  rc_channel_yaw_(rc_channels::RC_CHANNEL_YAW),
+	  rc_channel_rc_on_(rc_channels::RC_CHANNEL_RC_ON),
+	  rc_channel_mode_(rc_channels::RC_CHANNEL_MODE),
+	  joy_axis_throttle_(joy_axes::JOY_AXIS_THROTTLE),
+	  joy_axis_roll_(joy_axes::JOY_AXIS_ROLL),
+	  joy_axis_pitch_(joy_axes::JOY_AXIS_PITCH),
+	  joy_axis_yaw_(joy_axes::JOY_AXIS_YAW),
+	  joy_axis_mode_(joy_axes::JOY_AXIS_MODE),
+	  joy_button_rc_on_(joy_buttons::JOY_BUTTON_RC_ON),
+	  px4_offboard_state_(offboard_state::OFFBOARD_STATE_OFF),
+	  px4_mc_yaw_p_(2.8)
 {
     // TODO Auto-generated constructor stub
 }
@@ -72,7 +72,7 @@ void Px4OffboardCommand::stateCallback(const mavros_msgs::State &msg) {
   std::string offboard_mode("OFFBOARD");
 
   if (px4_mode.compare(offboard_mode) == 0) {
-    //ROS_INFO("Offboard mode on");
+
     if (px4_offboard_state_ == offboard_state::OFFBOARD_STATE_OFF) {
       //transition from off to on 
       // call service to set yaw P gain to 0
@@ -98,6 +98,7 @@ void Px4OffboardCommand::stateCallback(const mavros_msgs::State &msg) {
       }
 
       px4_offboard_state_ = offboard_state::OFFBOARD_STATE_ON;
+      ROS_INFO("Offboard mode on");
     }
   }
   else {
@@ -128,6 +129,7 @@ void Px4OffboardCommand::stateCallback(const mavros_msgs::State &msg) {
 
 
       px4_offboard_state_ = offboard_state::OFFBOARD_STATE_OFF;
+      ROS_INFO("Offboard mode off");
     }
 
   }

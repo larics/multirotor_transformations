@@ -35,8 +35,8 @@ struct joy_axes
   static constexpr float JOY_AXIS_VALUE_MIN = -1.0f;          //!< Minimum value of joy axis.
 
   static const uint8_t JOY_AXIS_THROTTLE = 2;             //!< Joy axis number used for throttle control
-  static const uint8_t JOY_AXIS_ROLL = 0;                 //!< Joy axis number used for roll control
-  static const uint8_t JOY_AXIS_PITCH = 1;                //!< Joy axis number used for pitch control
+  static const uint8_t JOY_AXIS_ROLL = 1;                 //!< Joy axis number used for roll control
+  static const uint8_t JOY_AXIS_PITCH = 0;                //!< Joy axis number used for pitch control
   static const uint8_t JOY_AXIS_YAW = 3;                  //!< Joy axis number used for yaw control
   static const uint8_t JOY_AXIS_MODE = 4;                 //!< Joy axis number used for mode selection (manual, altitude hold, position hold)
   static const uint8_t JOY_AXIS_CONTROL_INTERFACE = 5;    //!< Joy axis number used for turning on and off control interface (not used in current version)
