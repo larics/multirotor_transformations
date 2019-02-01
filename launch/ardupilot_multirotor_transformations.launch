@@ -1,23 +1,24 @@
 <launch>
     
-    <arg name="tracker_name" default="copterworx" />
+    <arg name="tracker_name" default="erl_uav" />
     <arg name="thrust_max" default="32" />
     <arg name="velocity_filter_time_constant" default="0.2" />
     <arg name="odometry_sampling_time" default="0.02" />
 
-	<!-- RC2Joy - Node mapping RC(Futaba) inputs to Joy topic -->
+	<!-- Node mapping RC(Futaba) inputs to Joy topic -->
  	<node 
  		name="rc_to_joy" 
  		pkg="multirotor_transformations" 
  		type="rc_to_joy_node" 
  		output="screen" ns="$(arg tracker_name)"/>
 
-	
+	<!-- Node forwarding MPC outputs to Ardupilot topics -->
  	<include file="$(find multirotor_transformations)/launch/mpc_to_px4_command.launch">
       <arg name="namespace" value="$(arg tracker_name)" />
       <arg name="thrust_max" value="$(arg thrust_max)" />
     </include>
 
+	<!-- Odometry filter(?) -->
     <include file="$(find multirotor_transformations)/launch/odometry_filter.launch">
       <arg name="namespace" value="$(arg tracker_name)" />
       <arg name="filter_time_constant" value="$(arg velocity_filter_time_constant)" />
