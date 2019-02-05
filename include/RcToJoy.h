@@ -24,7 +24,7 @@ struct rc_channels
   static const uint8_t RC_CHANNEL_PITCH = 1;                  //!< Rc channel number used for pitch control
   static const uint8_t RC_CHANNEL_YAW = 3;                    //!< Rc channel number used for yaw control
   static const uint8_t RC_CHANNEL_RC_ON = 6;                  //!< Rc channel number used for selection of RC as reference source (in eth mpc controller)
-  static const uint8_t RC_CHANNEL_MODE = 4;                   //!< Rc channel number used for mode selection (manual, altitude hold, position hold)
+  static const uint8_t RC_CHANNEL_MODE = 9;                   //!< Rc channel number used for mode selection (manual, altitude hold, position hold)
 };
 
 
