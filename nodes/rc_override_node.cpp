@@ -11,4 +11,17 @@ int main (int argc, char **argv)
 	RcOverride rcOverride;
 	ros::Publisher overridePub = nh.advertise<mavros_msgs::OverrideRCIn>(
 			"/mavros/rc/override", 1);
+	ros::ServiceServer service_srv = nh.advertiseService(
+			"override_service",
+			&RcOverride::overrideCallback,
+			&rcOverride);
+
+	rcOverride.setOverridePublisher(overridePub);
+
+	while(nh.ok())
+	{
+		ros::spin();
+	}
+
+	return 0;
 }

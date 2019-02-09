@@ -52,5 +52,11 @@ target_link_libraries(MarkerOptitrack ${catkin_LIBRARIES})
 cs_add_executable(marker_optitrack_node nodes/marker_optitrack_node.cpp)
 target_link_libraries(marker_optitrack_node MarkerOptitrack ${catkin_LIBRARIES})
 
+cs_add_library(RcOverride src/RcOverride.cpp)
+target_link_libraries(RcOverride ${catkin_LIBRARIES})
+
+cs_add_executable(rc_override_node nodes/rc_override_node.cpp)
+target_link_libraries(rc_override_node RcOverride ${catkin_LIBRARIES})
+
 cs_install()
 cs_export()

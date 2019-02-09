@@ -14,6 +14,9 @@
 
 class RcOverride
 {
+
+public:
+
 	RcOverride();
 	virtual ~RcOverride();
 
@@ -21,6 +24,11 @@ class RcOverride
 			std_srvs::Empty::Request& request,
 			std_srvs::Empty::Response& response);
 	void setOverridePublisher(ros::Publisher pub);
+
+private:
+
+	ros::Publisher override_pub;
+
 };
 
 #endif /* RCOVERRIDE_H_ */
