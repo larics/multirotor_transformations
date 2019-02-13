@@ -1,6 +1,6 @@
 <launch>
 	<arg name="override_index" default="6"/>
-	<arg name="override_value" default="2000"/>
+	<arg name="override_value" default="1500"/>
 	
 	<node name="rc_override_node" pkg="multirotor_transformations" type="rc_override_node" output="screen">
 		<param name="override_index" value="$(arg override_index)"/>	
