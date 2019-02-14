@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 		  "mavros/setpoint_attitude/attitude",
 		  1);
   ros::Publisher px4_thrust_cmd_pub = n.advertise<std_msgs::Float64>(
-		  "mavros/setpoint_attitude/att_throttle",
+		  "mavros/setpoint_attitude/thrust",
 		  1);
   ros::Publisher px4_angular_vel_cmd_pub = n.advertise<geometry_msgs::TwistStamped>(
 		  "mavros/setpoint_attitude/cmd_vel",
