@@ -12,6 +12,7 @@
 #include "mav_msgs/RollPitchYawrateThrust.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/TwistStamped.h"
+#include "mavros_msgs/Thrust.h"
 #include "std_msgs/Float64.h"
 #include "sensor_msgs/Imu.h"
 #include <tf/transform_broadcaster.h>

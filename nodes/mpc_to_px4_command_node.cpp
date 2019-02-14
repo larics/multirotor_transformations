@@ -31,7 +31,7 @@ int main(int argc, char **argv)
   ros::Publisher px4_attitude_cmd_pub = n.advertise<geometry_msgs::PoseStamped>(
 		  "mavros/setpoint_attitude/attitude",
 		  1);
-  ros::Publisher px4_thrust_cmd_pub = n.advertise<std_msgs::Float64>(
+  ros::Publisher px4_thrust_cmd_pub = n.advertise<mavros_msgs::Thrust>(
 		  "mavros/setpoint_attitude/thrust",
 		  1);
   ros::Publisher px4_angular_vel_cmd_pub = n.advertise<geometry_msgs::TwistStamped>(

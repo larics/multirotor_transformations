@@ -8,7 +8,10 @@ catkin_simple(ALL_DEPS_REQUIRED)
 #  cfg/
 #)
 
-include_directories(${catkin_INCLUDE_DIRS} include)
+message(WARNING ${catkin_INCLUDE_DIRS})
+include_directories(
+	${catkin_INCLUDE_DIRS} 
+	include)
 
 cs_add_library(OptitrackPoseToTransformStamped src/OptitrackPoseToTransformStamped.cpp)
 target_link_libraries(OptitrackPoseToTransformStamped ${catkin_LIBRARIES})

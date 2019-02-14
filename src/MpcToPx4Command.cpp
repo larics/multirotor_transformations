@@ -7,6 +7,7 @@
 
 
 #include "MpcToPx4Command.h"
+#include "mavros_msgs/Thrust.h"
 
 MpcToPx4Command::MpcToPx4Command():
   thrust_max_(25)
@@ -37,17 +38,17 @@ void MpcToPx4Command::setMaxThrust(float thrust_max) {
 
 void MpcToPx4Command::mpcCmdCallback(const mav_msgs::RollPitchYawrateThrust &msg) {
 
-  std_msgs::Float64 thrust_msg;
+  mavros_msgs::Thrust thrust_msg;
   geometry_msgs::PoseStamped attitude_msg;
   geometry_msgs::TwistStamped twist_msg;
 
   // from the thrust message just use z component and scale to 0-1
-  thrust_msg.data = msg.thrust.z / thrust_max_;
-  if (thrust_msg.data > 1.0) {
-    thrust_msg.data = 1.0;
+  thrust_msg.thrust = msg.thrust.z / thrust_max_;
+  if (thrust_msg.thrust > 1.0) {
+    thrust_msg.thrust = 1.0;
   }
-  else if (thrust_msg.data < 0.0) {
-    thrust_msg.data = 0.0;
+  else if (thrust_msg.thrust < 0.0) {
+    thrust_msg.thrust = 0.0;
   }
 
   //transform roll, pitch , yaw to quaternion
