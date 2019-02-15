@@ -59,7 +59,7 @@ void MpcToPx4Command::mpcCmdCallback(const mav_msgs::RollPitchYawrateThrust &msg
   quaternion.setEulerZYX(yaw_imu_, msg.pitch, msg.roll);
 
   attitude_msg.header = msg.header;
-  attitude_msg.type_mask = 7;
+  attitude_msg.type_mask = 3;
 
   attitude_msg.orientation.x = quaternion.x();
   attitude_msg.orientation.y = quaternion.y();
@@ -68,7 +68,7 @@ void MpcToPx4Command::mpcCmdCallback(const mav_msgs::RollPitchYawrateThrust &msg
 
   attitude_msg.body_rate.x = 0;
   attitude_msg.body_rate.y = 0;
-  attitude_msg.body_rate.z = 0;
+  attitude_msg.body_rate.z = -msg.yaw_rate;
 
   attitude_msg.thrust = thrust_value;
 
