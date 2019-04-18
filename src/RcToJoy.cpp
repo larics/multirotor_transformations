@@ -15,12 +15,15 @@ rc_channel_pitch_(rc_channels::RC_CHANNEL_PITCH),
 rc_channel_yaw_(rc_channels::RC_CHANNEL_YAW),
 rc_channel_rc_on_(rc_channels::RC_CHANNEL_RC_ON),
 rc_channel_mode_(rc_channels::RC_CHANNEL_MODE),
+rc_inspection_mode_(rc_channels::RC_INSPECTION_MODE),
+
 joy_axis_throttle_(joy_axes::JOY_AXIS_THROTTLE),
 joy_axis_roll_(joy_axes::JOY_AXIS_ROLL),
 joy_axis_pitch_(joy_axes::JOY_AXIS_PITCH),
 joy_axis_yaw_(joy_axes::JOY_AXIS_YAW),
 joy_axis_mode_(joy_axes::JOY_AXIS_MODE),
-joy_button_rc_on_(joy_buttons::JOY_BUTTON_RC_ON)
+joy_button_rc_on_(joy_buttons::JOY_BUTTON_RC_ON),
+joy_inspection_mode_(joy_buttons::JOY_INSPECTION_MODE)
 {
     // TODO Auto-generated constructor stub
 }
@@ -48,12 +51,13 @@ void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
 
     joy_msg.header = msg.header;
     joy_msg.axes[joy_axis_throttle_] = rcChannelToJoyAxis(msg.channels[rc_channel_throttle_]);
-    joy_msg.axes[joy_axis_roll_] = - rcChannelToJoyAxis(msg.channels[rc_channel_roll_]);
-    joy_msg.axes[joy_axis_pitch_] = - rcChannelToJoyAxis(msg.channels[rc_channel_pitch_]);
+    joy_msg.axes[joy_axis_roll_] = rcChannelToJoyAxis(msg.channels[rc_channel_roll_]);
+    joy_msg.axes[joy_axis_pitch_] = rcChannelToJoyAxis(msg.channels[rc_channel_pitch_]);
     joy_msg.axes[joy_axis_yaw_] = rcChannelToJoyAxis(msg.channels[rc_channel_yaw_]);
     joy_msg.axes[joy_axis_mode_] = rcChannelToJoyAxis(msg.channels[rc_channel_mode_]);
     joy_msg.buttons[joy_button_rc_on_] = rcChannelToJoyButton(msg.channels[rc_channel_rc_on_]);
-
+    joy_msg.buttons[joy_inspection_mode_] = rcChannelToJoyButton(msg.channels[rc_inspection_mode_]);
+ 
     joy_msg.header.stamp = ros::Time::now();
     joy_pub_.publish(joy_msg);
   }
