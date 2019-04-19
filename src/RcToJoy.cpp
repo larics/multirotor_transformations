@@ -51,8 +51,8 @@ void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
 
     joy_msg.header = msg.header;
     joy_msg.axes[joy_axis_throttle_] = rcChannelToJoyAxis(msg.channels[rc_channel_throttle_]);
-    joy_msg.axes[joy_axis_roll_] = rcChannelToJoyAxis(msg.channels[rc_channel_roll_]);
-    joy_msg.axes[joy_axis_pitch_] = rcChannelToJoyAxis(msg.channels[rc_channel_pitch_]);
+    joy_msg.axes[joy_axis_roll_] = - rcChannelToJoyAxis(msg.channels[rc_channel_roll_]);
+    joy_msg.axes[joy_axis_pitch_] = - rcChannelToJoyAxis(msg.channels[rc_channel_pitch_]);
     joy_msg.axes[joy_axis_yaw_] = rcChannelToJoyAxis(msg.channels[rc_channel_yaw_]);
     joy_msg.axes[joy_axis_mode_] = rcChannelToJoyAxis(msg.channels[rc_channel_mode_]);
     joy_msg.buttons[joy_button_rc_on_] = rcChannelToJoyButton(msg.channels[rc_channel_rc_on_]);
