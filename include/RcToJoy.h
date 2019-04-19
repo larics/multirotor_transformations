@@ -20,13 +20,13 @@ struct rc_channels
   static constexpr float RC_CHANNEL_VALUE_MIN = 1100.0f;             //!< Minimum value of the rc channels.
 
   static const uint8_t RC_CHANNEL_THROTTLE = 2;               //!< Rc channel number used for throttle control
-  static const uint8_t RC_CHANNEL_ROLL = 1;                   //!< Rc channel number used for roll control
-  static const uint8_t RC_CHANNEL_PITCH = 0;                  //!< Rc channel number used for pitch control
+  static const uint8_t RC_CHANNEL_ROLL = 0;                   //!< Rc channel number used for roll control
+  static const uint8_t RC_CHANNEL_PITCH = 1;                  //!< Rc channel number used for pitch control
   static const uint8_t RC_CHANNEL_YAW = 3;                    //!< Rc channel number used for yaw control
   static const uint8_t RC_CHANNEL_RC_ON = 6;                  //!< Rc channel number used for selection of RC as reference source (in eth mpc controller)
   static const uint8_t RC_CHANNEL_MODE = 5;                   //!< Rc channel number used for mode selection (manual, position hold)
 
-  static const uint8_t RC_INSPECTION_MODE = 8;
+  static const uint8_t RC_INSPECTION_MODE = 9;
 };
 
 
