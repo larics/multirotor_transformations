@@ -9,21 +9,23 @@
 #include "RcToJoy.h"
 
 RcToJoy::RcToJoy():
-rc_channel_throttle_(rc_channels::RC_CHANNEL_THROTTLE),
-rc_channel_roll_(rc_channels::RC_CHANNEL_ROLL),
-rc_channel_pitch_(rc_channels::RC_CHANNEL_PITCH),
-rc_channel_yaw_(rc_channels::RC_CHANNEL_YAW),
-rc_channel_rc_on_(rc_channels::RC_CHANNEL_RC_ON),
-rc_channel_mode_(rc_channels::RC_CHANNEL_MODE),
-rc_inspection_mode_(rc_channels::RC_INSPECTION_MODE),
+  rc_channel_throttle_(rc_channels::RC_CHANNEL_THROTTLE),
+  rc_channel_roll_(rc_channels::RC_CHANNEL_ROLL),
+  rc_channel_pitch_(rc_channels::RC_CHANNEL_PITCH),
+  rc_channel_yaw_(rc_channels::RC_CHANNEL_YAW),
+  rc_channel_rc_on_(rc_channels::RC_CHANNEL_RC_ON),
+  rc_channel_mode_(rc_channels::RC_CHANNEL_MODE),
+  rc_inspection_mode_(rc_channels::RC_INSPECTION_MODE),
+  rc_sequence_mode_(rc_channels::RC_SEQUENCE_MODE),
 
-joy_axis_throttle_(joy_axes::JOY_AXIS_THROTTLE),
-joy_axis_roll_(joy_axes::JOY_AXIS_ROLL),
-joy_axis_pitch_(joy_axes::JOY_AXIS_PITCH),
-joy_axis_yaw_(joy_axes::JOY_AXIS_YAW),
-joy_axis_mode_(joy_axes::JOY_AXIS_MODE),
-joy_button_rc_on_(joy_buttons::JOY_BUTTON_RC_ON),
-joy_inspection_mode_(joy_buttons::JOY_INSPECTION_MODE)
+  joy_axis_throttle_(joy_axes::JOY_AXIS_THROTTLE),
+  joy_axis_roll_(joy_axes::JOY_AXIS_ROLL),
+  joy_axis_pitch_(joy_axes::JOY_AXIS_PITCH),
+  joy_axis_yaw_(joy_axes::JOY_AXIS_YAW),
+  joy_axis_mode_(joy_axes::JOY_AXIS_MODE),
+  joy_axis_sequence_(joy_axes::JOY_SEQUENCE_MODE),
+  joy_button_rc_on_(joy_buttons::JOY_BUTTON_RC_ON),
+  joy_inspection_mode_(joy_buttons::JOY_INSPECTION_MODE)
 {
     // TODO Auto-generated constructor stub
 }
@@ -55,6 +57,7 @@ void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
     joy_msg.axes[joy_axis_pitch_] = - rcChannelToJoyAxis(msg.channels[rc_channel_pitch_]);
     joy_msg.axes[joy_axis_yaw_] = rcChannelToJoyAxis(msg.channels[rc_channel_yaw_]);
     joy_msg.axes[joy_axis_mode_] = rcChannelToJoyAxis(msg.channels[rc_channel_mode_]);
+    joy_msg.axes[joy_axis_sequence_] = rcChannelToJoyAxis(msg.channels[rc_sequence_mode_]);
     joy_msg.buttons[joy_button_rc_on_] = rcChannelToJoyButton(msg.channels[rc_channel_rc_on_]);
     joy_msg.buttons[joy_inspection_mode_] = rcChannelToJoyButton(msg.channels[rc_inspection_mode_]);
  

@@ -26,7 +26,8 @@ struct rc_channels
   static const uint8_t RC_CHANNEL_RC_ON = 6;                  //!< Rc channel number used for selection of RC as reference source (in eth mpc controller)
   static const uint8_t RC_CHANNEL_MODE = 5;                   //!< Rc channel number used for mode selection (manual, position hold)
 
-  static const uint8_t RC_INSPECTION_MODE = 9;
+  static const uint8_t RC_INSPECTION_MODE = 4;
+  static const uint8_t RC_SEQUENCE_MODE = 6;
 };
 
 
@@ -42,6 +43,8 @@ struct joy_axes
   static const uint8_t JOY_AXIS_MODE = 4;                 //!< Joy axis number used for mode selection (manual, altitude hold, position hold)
   static const uint8_t JOY_AXIS_CONTROL_INTERFACE = 5;    //!< Joy axis number used for turning on and off control interface (not used in current version)
   static const uint8_t JOY_AXIS_WHEEL = 6;    			      //!< Joy axis number used for wheel !? (not used in current version)
+
+  static const uint8_t JOY_SEQUENCE_MODE = 7;
 };
 
 struct joy_buttons
@@ -69,7 +72,7 @@ public:
 
  	float rcChannelToJoyAxis(float rc_channel_value);
  	uint8_t rcChannelToJoyButton(float rc_channel_value);
-   
+  
     ros::Publisher joy_pub_;
     uint8_t rc_channel_throttle_;
     uint8_t rc_channel_roll_;
@@ -78,12 +81,14 @@ public:
     uint8_t rc_channel_rc_on_;
     uint8_t rc_channel_mode_;
     uint8_t rc_inspection_mode_;
+    uint8_t rc_sequence_mode_;
 
     uint8_t joy_axis_throttle_;
     uint8_t joy_axis_roll_;
     uint8_t joy_axis_pitch_;
     uint8_t joy_axis_yaw_;
     uint8_t joy_axis_mode_;
+    uint8_t joy_axis_sequence_;
     uint8_t joy_button_rc_on_;
     uint8_t joy_inspection_mode_;  
 };
