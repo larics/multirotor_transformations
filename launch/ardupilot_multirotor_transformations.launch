@@ -1,7 +1,7 @@
 <launch>
     
     <arg name="namespace" default="erl_uav" />
-    <arg name="thrust_max" default="150" />
+    <arg name="thrust_max" default="32" />
     <arg name="velocity_filter_time_constant" default="0.2" />
     <arg name="odometry_sampling_time" default="0.02" />
 

@@ -19,7 +19,8 @@ int main(int argc, char **argv)
   ros::Publisher joy_pub = n.advertise<sensor_msgs::Joy>("px4/joy", 1);
 
   rc_to_joy_node->setJoyPublisher(joy_pub);
-
+  rc_to_joy_node->initializeParameters(n);
+  
   // Main loop.
   while (n.ok())
   {

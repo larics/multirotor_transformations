@@ -1,6 +1,5 @@
 #include "MpcToPx4Command.h"
 
-
 /*--------------------------------------------------------------------
  * main()
  * Main function to set up ROS node.
@@ -28,8 +27,8 @@ int main(int argc, char **argv)
 		  transform_node,
 		  ros::TransportHints().tcpNoDelay());
 
-  ros::Publisher px4_attitude_cmd_pub = n.advertise<geometry_msgs::PoseStamped>(
-		  "mavros/setpoint_attitude/attitude",
+  ros::Publisher px4_attitude_cmd_pub = n.advertise<mavros_msgs::AttitudeTarget>(
+		  "mavros/setpoint_raw/attitude",
 		  1);
   ros::Publisher px4_thrust_cmd_pub = n.advertise<mavros_msgs::Thrust>(
 		  "mavros/setpoint_attitude/thrust",

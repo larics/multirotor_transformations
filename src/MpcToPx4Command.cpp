@@ -7,7 +7,6 @@
 
 
 #include "MpcToPx4Command.h"
-#include "mavros_msgs/Thrust.h"
 
 MpcToPx4Command::MpcToPx4Command():
   thrust_max_(25)
@@ -39,17 +38,20 @@ void MpcToPx4Command::setMaxThrust(float thrust_max) {
 void MpcToPx4Command::mpcCmdCallback(const mav_msgs::RollPitchYawrateThrust &msg) {
 
   mavros_msgs::Thrust thrust_msg;
-  geometry_msgs::PoseStamped attitude_msg;
+  mavros_msgs::AttitudeTarget attitude_msg;
   geometry_msgs::TwistStamped twist_msg;
 
   // from the thrust message just use z component and scale to 0-1
-  thrust_msg.thrust = msg.thrust.z / thrust_max_;
-  if (thrust_msg.thrust > 1.0) {
-    thrust_msg.thrust = 1.0;
+  double thrust_value = msg.thrust.z / thrust_max_;
+
+  if (thrust_value > 1.0) {
+	  thrust_value = 1.0;
   }
-  else if (thrust_msg.thrust < 0.0) {
-    thrust_msg.thrust = 0.0;
+  else if (thrust_value < 0.0) {
+	  thrust_value = 0.0;
   }
+
+  thrust_msg.thrust = thrust_value;
 
   //transform roll, pitch , yaw to quaternion
   // to ensure bumpless transfer between different modes for yaw use measured yaw (from imu)
@@ -57,10 +59,18 @@ void MpcToPx4Command::mpcCmdCallback(const mav_msgs::RollPitchYawrateThrust &msg
   quaternion.setEulerZYX(yaw_imu_, msg.pitch, msg.roll);
 
   attitude_msg.header = msg.header;
-  attitude_msg.pose.orientation.x  = quaternion.x();
-  attitude_msg.pose.orientation.y  = quaternion.y();
-  attitude_msg.pose.orientation.z  = quaternion.z();
-  attitude_msg.pose.orientation.w  = quaternion.w();
+  attitude_msg.type_mask = 3;
+
+  attitude_msg.orientation.x = quaternion.x();
+  attitude_msg.orientation.y = quaternion.y();
+  attitude_msg.orientation.z = quaternion.z();
+  attitude_msg.orientation.w = quaternion.w();
+
+  attitude_msg.body_rate.x = 0;
+  attitude_msg.body_rate.y = 0;
+  attitude_msg.body_rate.z = -msg.yaw_rate;
+
+  attitude_msg.thrust = thrust_value;
 
   twist_msg.header = msg.header;
   twist_msg.twist.linear.x = 0;
@@ -71,9 +81,9 @@ void MpcToPx4Command::mpcCmdCallback(const mav_msgs::RollPitchYawrateThrust &msg
   twist_msg.twist.angular.y = 0;
   twist_msg.twist.angular.z = -msg.yaw_rate;
 
-  px4_thrust_cmd_pub_.publish(thrust_msg);
+  // px4_thrust_cmd_pub_.publish(thrust_msg);
   px4_attitude_cmd_pub_.publish(attitude_msg);
-  px4_angular_vel_cmd_pub_.publish(twist_msg);
+  // px4_angular_vel_cmd_pub_.publish(twist_msg);
 
 }
 

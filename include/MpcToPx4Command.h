@@ -20,6 +20,7 @@
 #include <tf/transform_datatypes.h>
 #include <stdio.h>
 #include <math.h>
+#include "mavros_msgs/AttitudeTarget.h"
 
 class MpcToPx4Command {
 public:
