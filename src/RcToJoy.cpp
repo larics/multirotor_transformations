@@ -5,8 +5,8 @@
  *      Author: thaus
  */
 
-
 #include "RcToJoy.h"
+#include <uav_ros_control/NonlinearFilters.h>
 
 RcToJoy::RcToJoy():
   rc_channel_throttle_(rc_channels::RC_CHANNEL_THROTTLE),
@@ -57,10 +57,30 @@ void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
     joy_msg.buttons = button_array;
 
     joy_msg.header = msg.header;
-    joy_msg.axes[joy_axis_throttle_] = rcChannelToJoyAxis(msg.channels[rc_channel_throttle_]);
-    joy_msg.axes[joy_axis_roll_] = - rcChannelToJoyAxis(msg.channels[rc_channel_roll_]);
-    joy_msg.axes[joy_axis_pitch_] = - rcChannelToJoyAxis(msg.channels[rc_channel_pitch_]);
-    joy_msg.axes[joy_axis_yaw_] = rcChannelToJoyAxis(msg.channels[rc_channel_yaw_]);
+    joy_msg.axes[joy_axis_throttle_] = 
+      nonlinear_filters::deadzone(
+        rcChannelToJoyAxis(msg.channels[rc_channel_throttle_]),
+        - _zDeadzone,
+        _zDeadzone
+      ) / (joy_axes::JOY_AXIS_VALUE_MAX - _zDeadzone);
+    joy_msg.axes[joy_axis_roll_] = 
+      nonlinear_filters::deadzone(
+        - rcChannelToJoyAxis(msg.channels[rc_channel_roll_]),
+        - _yDeadzone,
+        _yDeadzone
+      ) / (joy_axes::JOY_AXIS_VALUE_MAX - _yDeadzone);
+    joy_msg.axes[joy_axis_pitch_] = 
+      nonlinear_filters::deadzone(
+        - rcChannelToJoyAxis(msg.channels[rc_channel_pitch_]),
+        - _xDeadzone,
+        _xDeadzone        
+      ) / (joy_axes::JOY_AXIS_VALUE_MAX - _xDeadzone);
+    joy_msg.axes[joy_axis_yaw_] = 
+      nonlinear_filters::deadzone(
+        rcChannelToJoyAxis(msg.channels[rc_channel_yaw_]),
+        - _yawDeadzone,
+        _yawDeadzone
+      ) / (joy_axes::JOY_AXIS_VALUE_MAX - _yawDeadzone);
     joy_msg.axes[joy_axis_mode_] = rcChannelToJoyAxis(msg.channels[rc_channel_mode_]);
     joy_msg.axes[joy_axis_sequence_] = rcChannelToJoyAxis(msg.channels[rc_sequence_mode_]);
     joy_msg.buttons[joy_button_rc_on_] = rcChannelToJoyButton(msg.channels[rc_channel_rc_on_]);
@@ -73,7 +93,6 @@ void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
 }
 
 float RcToJoy::rcChannelToJoyAxis(float rc_channel_value) {
-
   float joy_value;
   joy_value = (rc_channel_value - (rc_channels::RC_CHANNEL_VALUE_MAX + rc_channels::RC_CHANNEL_VALUE_MIN) / 2.0) / ((rc_channels::RC_CHANNEL_VALUE_MAX - rc_channels::RC_CHANNEL_VALUE_MIN) / 2.0); 
   if (joy_value < joy_axes::JOY_AXIS_VALUE_MIN)
