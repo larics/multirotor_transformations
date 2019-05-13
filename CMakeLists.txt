@@ -8,7 +8,6 @@ catkin_simple(ALL_DEPS_REQUIRED)
 #  cfg/
 #)
 
-message(WARNING ${catkin_INCLUDE_DIRS})
 include_directories(
 	${catkin_INCLUDE_DIRS} 
 	include)
