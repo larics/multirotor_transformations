@@ -1,8 +1,11 @@
 <launch>
     
-    <arg name="input_namespace" default="px4" />
-    <arg name="output_namespace" default="px4" />
-    
+    <!-- Load deadzone parameters -->
+    <rosparam 
+        command="load"
+        file="$(find multirotor_transformations)/config/deadzone.params.yaml" />
+
+    <!-- Run RcToJoy node -->
     <node name="rc_to_joy" pkg="multirotor_transformations" type="rc_to_joy_node" output="screen"/>
     
 </launch>

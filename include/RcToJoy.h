@@ -67,7 +67,8 @@ public:
     void rcCallback(const mavros_msgs::RCIn &msg);
     
     void setJoyPublisher(ros::Publisher publisher);
- 
+    void initializeParameters(ros::NodeHandle& nh);
+
  private:   
 
  	float rcChannelToJoyAxis(float rc_channel_value);
@@ -90,7 +91,12 @@ public:
     uint8_t joy_axis_mode_;
     uint8_t joy_axis_sequence_;
     uint8_t joy_button_rc_on_;
-    uint8_t joy_inspection_mode_;  
+    uint8_t joy_inspection_mode_;
+
+    double _xDeadzone;
+    double _yDeadzone;
+    double _zDeadzone;
+    double _yawDeadzone;
 };
 
 #endif /* RCTOJOY_H_ */

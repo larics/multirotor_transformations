@@ -25,7 +25,12 @@ RcToJoy::RcToJoy():
   joy_axis_mode_(joy_axes::JOY_AXIS_MODE),
   joy_axis_sequence_(joy_axes::JOY_SEQUENCE_MODE),
   joy_button_rc_on_(joy_buttons::JOY_BUTTON_RC_ON),
-  joy_inspection_mode_(joy_buttons::JOY_INSPECTION_MODE)
+  joy_inspection_mode_(joy_buttons::JOY_INSPECTION_MODE),
+
+  _xDeadzone  (0),
+  _yDeadzone  (0),
+  _zDeadzone  (0),
+  _yawDeadzone(0)
 {
     // TODO Auto-generated constructor stub
 }
@@ -90,4 +95,20 @@ uint8_t RcToJoy::rcChannelToJoyButton(float rc_channel_value) {
     joy_value = joy_buttons::JOY_BUTTON_VALUE_OFF;
 
   return joy_value;
+}
+
+void RcToJoy::initializeParameters(ros::NodeHandle& nh)
+{
+  bool initialized = 
+    nh.getParam("/joy/deadzone/x",    _xDeadzone) &&
+    nh.getParam("/joy/deadzone/y",    _yDeadzone) &&
+    nh.getParam("/joy/deadzone/z",    _zDeadzone) &&
+    nh.getParam("/joy/deadzone/yaw",  _yawDeadzone);
+  ROS_INFO("Deadzone values:\nx: %.2f \ny: %.2f \nz: %.2f \nyaw: %.2f",
+    _xDeadzone, _yDeadzone, _zDeadzone, _yawDeadzone);
+  if (!initialized)
+  {
+    ROS_FATAL("RcToJoy::initializeParameters - deadzone parameters not loaded.");
+    throw std::runtime_error("Deadzone parameters are not initialized.");
+  }  
 }
