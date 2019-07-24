@@ -68,7 +68,7 @@ void MpcToPx4Command::mpcCmdCallback(const mav_msgs::RollPitchYawrateThrust &msg
 
   attitude_msg.body_rate.x = 0;
   attitude_msg.body_rate.y = 0;
-  attitude_msg.body_rate.z = -msg.yaw_rate;
+  attitude_msg.body_rate.z = msg.yaw_rate;
 
   attitude_msg.thrust = thrust_value;
 
