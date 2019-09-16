@@ -22,19 +22,19 @@ int main(int argc, char **argv)
 		  transform_node,
 		  ros::TransportHints().tcpNoDelay());
   ros::Subscriber imu_sub = n.subscribe(
-		  "mavros/imu/data",
+		  "/mavros/imu/data",
 		  1, &MpcToPx4Command::imuCallback,
 		  transform_node,
 		  ros::TransportHints().tcpNoDelay());
 
   ros::Publisher px4_attitude_cmd_pub = n.advertise<mavros_msgs::AttitudeTarget>(
-		  "mavros/setpoint_raw/attitude",
+		  "/mavros/setpoint_raw/attitude",
 		  1);
   ros::Publisher px4_thrust_cmd_pub = n.advertise<mavros_msgs::Thrust>(
-		  "mavros/setpoint_attitude/thrust",
+		  "/mavros/setpoint_attitude/thrust",
 		  1);
   ros::Publisher px4_angular_vel_cmd_pub = n.advertise<geometry_msgs::TwistStamped>(
-		  "mavros/setpoint_attitude/cmd_vel",
+		  "/mavros/setpoint_attitude/cmd_vel",
 		  1);
 
   transform_node->setPx4AttitudeCmdPublisher(px4_attitude_cmd_pub);
