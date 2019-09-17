@@ -22,8 +22,8 @@ int main(int argc, char **argv)
 		  transform_node,
 		  ros::TransportHints().tcpNoDelay());
   ros::Subscriber imu_sub = n.subscribe(
-		  "/mavros/imu/data",
-		  1, &MpcToPx4Command::imuCallback,
+		  "odometry",
+		  1, &MpcToPx4Command::odometryCallback,
 		  transform_node,
 		  ros::TransportHints().tcpNoDelay());
 

@@ -2,9 +2,11 @@
     
     <arg name="namespace" default="px4" />
     <arg name="thrust_max" default="95" />
-    
+    <arg name="odometry" default="/mavros/global_position/local"/>
+
     <node name="mpc_to_px4_command" pkg="multirotor_transformations" type="mpc_to_px4_command_node" output="screen" ns="$(arg namespace)">
     	<param name="thrust_max" value="$(arg thrust_max)"/>
+        <remap from="odometry" to="$(arg odometry)"/>
     </node>
     
 </launch>
