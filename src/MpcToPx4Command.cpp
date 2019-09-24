@@ -68,30 +68,17 @@ void MpcToPx4Command::mpcCmdCallback(const mav_msgs::RollPitchYawrateThrust &msg
 
   attitude_msg.body_rate.x = 0;
   attitude_msg.body_rate.y = 0;
-  attitude_msg.body_rate.z = -msg.yaw_rate;
+  attitude_msg.body_rate.z = msg.yaw_rate;
 
   attitude_msg.thrust = thrust_value;
-
-  twist_msg.header = msg.header;
-  twist_msg.twist.linear.x = 0;
-  twist_msg.twist.linear.y = 0;
-  twist_msg.twist.linear.z = 0;
-
-  twist_msg.twist.angular.x = 0;
-  twist_msg.twist.angular.y = 0;
-  twist_msg.twist.angular.z = -msg.yaw_rate;
-
-  // px4_thrust_cmd_pub_.publish(thrust_msg);
   px4_attitude_cmd_pub_.publish(attitude_msg);
-  // px4_angular_vel_cmd_pub_.publish(twist_msg);
-
 }
 
-void MpcToPx4Command::imuCallback(const sensor_msgs::Imu &msg) {
+void MpcToPx4Command::odometryCallback(const nav_msgs::Odometry &msg) {
 
   double roll, pitch, yaw;
   // transform quaternion to euler
-  tf::Quaternion quaternion_imu(msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w);
+  tf::Quaternion quaternion_imu(msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z, msg.pose.pose.orientation.w);
   tf::Matrix3x3 m(quaternion_imu);
   m.getRPY(roll, pitch, yaw);
   yaw_imu_ = yaw;

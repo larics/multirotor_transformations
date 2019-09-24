@@ -6,7 +6,7 @@
  */
 
 #include "RcToJoy.h"
-#include <uav_ros_control/NonlinearFilters.h>
+#include <uav_ros_control/filters/NonlinearFilters.h>
 
 RcToJoy::RcToJoy():
   rc_channel_throttle_(rc_channels::RC_CHANNEL_THROTTLE),

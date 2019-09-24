@@ -12,6 +12,7 @@
 #include "mav_msgs/RollPitchYawrateThrust.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "geometry_msgs/TwistStamped.h"
+#include "nav_msgs/Odometry.h"
 #include "mavros_msgs/Thrust.h"
 #include "std_msgs/Float64.h"
 #include "sensor_msgs/Imu.h"
@@ -28,7 +29,7 @@ public:
     MpcToPx4Command();
     virtual ~MpcToPx4Command();
     void mpcCmdCallback(const mav_msgs::RollPitchYawrateThrust &msg);
-    void imuCallback(const sensor_msgs::Imu &msg);
+    void odometryCallback(const nav_msgs::Odometry &msg);
     
     void setPx4AttitudeCmdPublisher(ros::Publisher publisher);
     void setPx4ThrustCmdPublisher(ros::Publisher publisher);
