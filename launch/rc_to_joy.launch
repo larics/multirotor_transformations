@@ -6,6 +6,8 @@
         file="$(find multirotor_transformations)/config/deadzone.params.yaml" />
 
     <!-- Run RcToJoy node -->
-    <node name="rc_to_joy" pkg="multirotor_transformations" type="rc_to_joy_node" output="screen"/>
+    <node name="rc_to_joy" pkg="multirotor_transformations" type="rc_to_joy_node" output="screen">
+	<remap from="px4/joy" to="red/joy"/>
+	</node>
     
 </launch>

@@ -108,7 +108,7 @@ uint8_t RcToJoy::rcChannelToJoyButton(float rc_channel_value) {
 
   uint8_t joy_value;
 
-  if (rc_channel_value > (rc_channels::RC_CHANNEL_VALUE_MAX + rc_channels::RC_CHANNEL_VALUE_MIN) / 2.0 )
+  if (rc_channel_value > (rc_channels::RC_CHANNEL_VALUE_MAX + rc_channels::RC_CHANNEL_VALUE_MIN) / 2.0 + 100)
     joy_value = joy_buttons::JOY_BUTTON_VALUE_ON;
   else
     joy_value = joy_buttons::JOY_BUTTON_VALUE_OFF;
