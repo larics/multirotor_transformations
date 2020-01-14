@@ -76,7 +76,7 @@ void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
         _xDeadzone        
       ) / (joy_axes::JOY_AXIS_VALUE_MAX - _xDeadzone);
     joy_msg.axes[joy_axis_yaw_] = 
-      nonlinear_filters::deadzone(
+      - nonlinear_filters::deadzone(
         rcChannelToJoyAxis(msg.channels[rc_channel_yaw_]),
         - _yawDeadzone,
         _yawDeadzone
