@@ -10,13 +10,13 @@ int main (int argc, char **argv)
 
 	ros::NodeHandle nh;
 	ros::Publisher overridePub = nh.advertise<mavros_msgs::OverrideRCIn>(
-			"/mavros/rc/override", 1);
+			"mavros/rc/override", 1);
 	ros::ServiceServer service_on = nh.advertiseService(
-			"/magnet/override_ON",
+			"magnet/override_ON",
 			&RcOverride::overrideONCallback,
 			&rcOverride);
 	ros::ServiceServer service_off = nh.advertiseService(
-			"/magnet/override_OFF",
+			"magnet/override_OFF",
 			&RcOverride::overrideOFFCallback,
 			&rcOverride);
 
