@@ -1,6 +1,6 @@
 <launch>
 	<arg name="override_index" default="6"/>
-	<arg name="override_value" default="1500"/>
+	<arg name="override_value" default="1700"/>
 	<arg name="namespace"	   default="$(env UAV_NAMESPACE)"/>
 		
 	<node name="rc_override_node" pkg="multirotor_transformations" type="rc_override_node" output="screen" ns="$(arg namespace)">
