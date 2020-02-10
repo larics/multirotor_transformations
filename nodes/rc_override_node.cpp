@@ -9,6 +9,11 @@ int main (int argc, char **argv)
 	RcOverride rcOverride;
 
 	ros::NodeHandle nh;
+	ros::Subscriber subRcIn = nh.subscribe(
+			"mavros/rc/in", 
+			1, 
+			&RcOverride::rcCallback, 
+			&rcOverride);
 	ros::Publisher overridePub = nh.advertise<mavros_msgs::OverrideRCIn>(
 			"mavros/rc/override", 1);
 	ros::ServiceServer service_on = nh.advertiseService(
@@ -33,10 +38,6 @@ int main (int argc, char **argv)
 	rcOverride.setOverrideIndex(overrideIndex);
 	rcOverride.setOverrideValue(overrideValue);
 
-	while(nh.ok())
-	{
-		ros::spin();
-	}
-
+	ros::spin();
 	return 0;
 }

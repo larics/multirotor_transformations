@@ -11,6 +11,7 @@
 #include "ros/ros.h"
 #include "std_srvs/Empty.h"
 #include "mavros_msgs/OverrideRCIn.h"
+#include <mavros_msgs/RCIn.h>
 #include <vector>
 
 class RcOverride
@@ -32,6 +33,7 @@ public:
 	void setOverridePublisher(ros::Publisher pub);
 	void setOverrideIndex(int index);
 	void setOverrideValue(int value);
+	void rcCallback(const mavros_msgs::RCIn& msg);
 
 private:
 

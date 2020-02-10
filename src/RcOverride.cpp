@@ -18,8 +18,6 @@ bool RcOverride::overrideOFFCallback(
 {
 	ROS_INFO("Override OFF");
 	override_indices_ = {0, 0, 0, 0, 0, 0, 0, 0};
-
-	publishOverrideMessage();
 	return true;
 }
 
@@ -30,9 +28,12 @@ bool RcOverride::overrideONCallback(
 	ROS_INFO("Override ON");
 	override_indices_ = {0, 0, 0, 0, 0, 0, 0, 0};
 	override_indices_[override_index_] = override_value_;
-
-	publishOverrideMessage();
 	return true;
+}
+
+void RcOverride::rcCallback(const mavros_msgs::RCIn& msg)
+{
+	publishOverrideMessage();
 }
 
 void RcOverride::publishOverrideMessage()
