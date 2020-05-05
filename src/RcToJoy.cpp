@@ -6,7 +6,19 @@
  */
 
 #include "RcToJoy.h"
-#include <uav_ros_control/filters/NonlinearFilters.h>
+
+double deadzone(
+		double value,
+		double lowLimit,
+		double highLimit)
+{
+	if (value < highLimit && value > lowLimit)  
+		return 0; 
+	else if (value >= highLimit) 
+		return value - highLimit;
+	else if (value <= lowLimit)
+		return value - lowLimit;
+}
 
 RcToJoy::RcToJoy():
   rc_channel_throttle_(rc_channels::RC_CHANNEL_THROTTLE),
@@ -58,25 +70,25 @@ void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
 
     joy_msg.header = msg.header;
     joy_msg.axes[joy_axis_throttle_] = 
-      nonlinear_filters::deadzone(
+      deadzone(
         rcChannelToJoyAxis(msg.channels[rc_channel_throttle_]),
         - _zDeadzone,
         _zDeadzone
       ) / (joy_axes::JOY_AXIS_VALUE_MAX - _zDeadzone);
     joy_msg.axes[joy_axis_roll_] = 
-      nonlinear_filters::deadzone(
+      deadzone(
         - rcChannelToJoyAxis(msg.channels[rc_channel_roll_]),
         - _yDeadzone,
         _yDeadzone
       ) / (joy_axes::JOY_AXIS_VALUE_MAX - _yDeadzone);
     joy_msg.axes[joy_axis_pitch_] = 
-      nonlinear_filters::deadzone(
+      deadzone(
         - rcChannelToJoyAxis(msg.channels[rc_channel_pitch_]),
         - _xDeadzone,
         _xDeadzone        
       ) / (joy_axes::JOY_AXIS_VALUE_MAX - _xDeadzone);
     joy_msg.axes[joy_axis_yaw_] = 
-      - nonlinear_filters::deadzone(
+      - deadzone(
         rcChannelToJoyAxis(msg.channels[rc_channel_yaw_]),
         - _yawDeadzone,
         _yawDeadzone
