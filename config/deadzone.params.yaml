@@ -2,5 +2,5 @@ joy:
   deadzone:
     x: 0.05
     y: 0.05
-    z: 0.1
+    z: 0.2
     yaw: 0.05
