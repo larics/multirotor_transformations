@@ -1,10 +1,11 @@
 <launch>
   <arg name="namespace" default="$(env UAV_NAMESPACE)"/>
-   	
+  <arg name="config_file" default="$(find multirotor_transformations)/config/deadzone.params.yaml" />
+
     <!-- Load deadzone parameters -->
     <rosparam 
         command="load"
-        file="$(find multirotor_transformations)/config/deadzone.params.yaml" />
+        file="$(arg config_file)" />
   <group ns="$(arg namespace)">
     <!-- Run RcToJoy node -->
     <node name="rc_to_joy" pkg="multirotor_transformations" type="rc_to_joy_node" output="screen">
