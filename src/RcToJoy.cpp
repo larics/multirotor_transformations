@@ -111,8 +111,6 @@ void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
     joy_msg.header.stamp = ros::Time::now();
     joy_pub_.publish(joy_msg);
   }
-
-    m_median_filter_throttle.print();
 }
 
 float RcToJoy::rcChannelToJoyAxis(float rc_channel_value) {
