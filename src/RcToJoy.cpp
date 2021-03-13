@@ -58,19 +58,18 @@ void RcToJoy::setJoyPublisher(ros::Publisher joy_pub) {
 
 void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
 
-  m_median_filter_inspection_mode.addSample(msg.channels[rc_inspection_mode_]);
-  m_median_filter_mode.addSample(msg.channels[rc_channel_mode_]);
-  m_median_filter_rc_on.addSample(msg.channels[rc_channel_rc_on_]);
-  m_median_filter_sequence_mode.addSample(msg.channels[rc_sequence_mode_]);
-  m_median_filter_pitch.addSample(msg.channels[rc_channel_pitch_]);
-  m_median_filter_roll.addSample(msg.channels[rc_channel_roll_]);
-  m_median_filter_throttle.addSample(msg.channels[rc_channel_throttle_]);
-  m_median_filter_yaw.addSample(msg.channels[rc_channel_yaw_]);
-
-
   // first check is rc msg contains any channel value
   if (msg.channels.size() > 0) {
 
+    m_median_filter_inspection_mode.addSample(msg.channels[rc_inspection_mode_]);
+    m_median_filter_mode.addSample(msg.channels[rc_channel_mode_]);
+    m_median_filter_rc_on.addSample(msg.channels[rc_channel_rc_on_]);
+    m_median_filter_sequence_mode.addSample(msg.channels[rc_sequence_mode_]);
+    m_median_filter_pitch.addSample(msg.channels[rc_channel_pitch_]);
+    m_median_filter_roll.addSample(msg.channels[rc_channel_roll_]);
+    m_median_filter_throttle.addSample(msg.channels[rc_channel_throttle_]);
+    m_median_filter_yaw.addSample(msg.channels[rc_channel_yaw_]);
+    
     sensor_msgs::Joy joy_msg;
     std::vector<float> axis_array(12, 0); // length 12, init to 0
     std::vector<int> button_array(12, 0); // length 12, init to 0
