@@ -13,6 +13,7 @@
 #include "mavros_msgs/RCIn.h"
 #include <stdio.h>
 #include <math.h>
+#include "MedianFilter.hpp"
 
 struct rc_channels
 {
@@ -57,8 +58,6 @@ struct joy_buttons
   static const uint8_t JOY_INSPECTION_MODE = 5;
 };
 
-
-
 class RcToJoy {
 public:
 
@@ -97,6 +96,15 @@ public:
     double _yDeadzone;
     double _zDeadzone;
     double _yawDeadzone;
+
+    MedianFilter<uint16_t, 5> m_median_filter_throttle;
+    MedianFilter<uint16_t, 5> m_median_filter_roll;
+    MedianFilter<uint16_t, 5> m_median_filter_pitch;
+    MedianFilter<uint16_t, 5> m_median_filter_yaw;
+    MedianFilter<uint16_t, 5> m_median_filter_mode;
+    MedianFilter<uint16_t, 5> m_median_filter_inspection_mode;
+    MedianFilter<uint16_t, 5> m_median_filter_sequence_mode;
+    MedianFilter<uint16_t, 5> m_median_filter_rc_on;    
 };
 
 #endif /* RCTOJOY_H_ */

@@ -58,6 +58,16 @@ void RcToJoy::setJoyPublisher(ros::Publisher joy_pub) {
 
 void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
 
+  m_median_filter_inspection_mode.addSample(msg.channels[rc_inspection_mode_]);
+  m_median_filter_mode.addSample(msg.channels[rc_channel_mode_]);
+  m_median_filter_rc_on.addSample(msg.channels[rc_channel_rc_on_]);
+  m_median_filter_sequence_mode.addSample(msg.channels[rc_sequence_mode_]);
+  m_median_filter_pitch.addSample(msg.channels[rc_channel_pitch_]);
+  m_median_filter_roll.addSample(msg.channels[rc_channel_roll_]);
+  m_median_filter_throttle.addSample(msg.channels[rc_channel_throttle_]);
+  m_median_filter_yaw.addSample(msg.channels[rc_channel_yaw_]);
+
+
   // first check is rc msg contains any channel value
   if (msg.channels.size() > 0) {
 
@@ -71,37 +81,38 @@ void RcToJoy::rcCallback(const mavros_msgs::RCIn &msg) {
     joy_msg.header = msg.header;
     joy_msg.axes[joy_axis_throttle_] = 
       deadzone(
-        rcChannelToJoyAxis(msg.channels[rc_channel_throttle_]),
+        rcChannelToJoyAxis(m_median_filter_throttle.getMedian()),
         - _zDeadzone,
         _zDeadzone
       ) / (joy_axes::JOY_AXIS_VALUE_MAX - _zDeadzone);
     joy_msg.axes[joy_axis_roll_] = 
       deadzone(
-        - rcChannelToJoyAxis(msg.channels[rc_channel_roll_]),
+        - rcChannelToJoyAxis(m_median_filter_roll.getMedian()),
         - _yDeadzone,
         _yDeadzone
       ) / (joy_axes::JOY_AXIS_VALUE_MAX - _yDeadzone);
     joy_msg.axes[joy_axis_pitch_] = 
       deadzone(
-        - rcChannelToJoyAxis(msg.channels[rc_channel_pitch_]),
+        - rcChannelToJoyAxis(m_median_filter_pitch.getMedian()),
         - _xDeadzone,
         _xDeadzone        
       ) / (joy_axes::JOY_AXIS_VALUE_MAX - _xDeadzone);
     joy_msg.axes[joy_axis_yaw_] = 
       - deadzone(
-        rcChannelToJoyAxis(msg.channels[rc_channel_yaw_]),
+        rcChannelToJoyAxis(m_median_filter_yaw.getMedian()),
         - _yawDeadzone,
         _yawDeadzone
       ) / (joy_axes::JOY_AXIS_VALUE_MAX - _yawDeadzone);
-    joy_msg.axes[joy_axis_mode_] = rcChannelToJoyAxis(msg.channels[rc_channel_mode_]);
-    joy_msg.axes[joy_axis_sequence_] = rcChannelToJoyAxis(msg.channels[rc_sequence_mode_]);
-    joy_msg.buttons[joy_button_rc_on_] = rcChannelToJoyButton(msg.channels[rc_channel_rc_on_]);
-    joy_msg.buttons[joy_inspection_mode_] = rcChannelToJoyButton(msg.channels[rc_inspection_mode_]);
+    joy_msg.axes[joy_axis_mode_] = rcChannelToJoyAxis(m_median_filter_mode.getMedian());
+    joy_msg.axes[joy_axis_sequence_] = rcChannelToJoyAxis(m_median_filter_sequence_mode.getMedian());
+    joy_msg.buttons[joy_button_rc_on_] = rcChannelToJoyButton(m_median_filter_rc_on.getMedian());
+    joy_msg.buttons[joy_inspection_mode_] = rcChannelToJoyButton(m_median_filter_inspection_mode.getMedian());
  
     joy_msg.header.stamp = ros::Time::now();
     joy_pub_.publish(joy_msg);
   }
 
+    m_median_filter_throttle.print();
 }
 
 float RcToJoy::rcChannelToJoyAxis(float rc_channel_value) {
